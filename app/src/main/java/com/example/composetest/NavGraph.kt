@@ -25,7 +25,11 @@ fun SetupNavGraph(
         composable(
             route = Screen.Detail.route,
             arguments = listOf(
-                navArgument(DETAIL_ARGUMENT_KEY) { type = NavType.IntType },
+                navArgument(DETAIL_ARGUMENT_KEY) {
+                    type = NavType.IntType
+                    defaultValue = 0 // default value must be passed for optional argument
+                    // nullable = true // when no argument value is passed, a null value is received
+                },
                 navArgument(DETAIL_ARGUMENT_KEY2) { type = NavType.StringType }
             )
         ) {
