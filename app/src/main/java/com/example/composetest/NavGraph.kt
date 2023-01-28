@@ -2,11 +2,11 @@ package com.example.composetest
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import com.example.composetest.model.Person
 
 @Composable
 fun SetupNavGraph(
@@ -23,18 +23,13 @@ fun SetupNavGraph(
         }
 
         composable(
-            route = Screen.Detail.route,
-            arguments = listOf(
-                navArgument(DETAIL_ARGUMENT_KEY) {
-                    type = NavType.IntType
-                    defaultValue = 0 // default value must be passed for optional argument
-                    // nullable = true // when no argument value is passed, a null value is received
-                },
-                navArgument(DETAIL_ARGUMENT_KEY2) { type = NavType.StringType }
-            )
+            route = Screen.Detail.route
         ) {
-            Log.d("Args", it.arguments?.getInt(DETAIL_ARGUMENT_KEY).toString())
-            Log.d("Args", it.arguments?.getString(DETAIL_ARGUMENT_KEY2).toString())
+            LaunchedEffect(key1 = it) {
+                val result =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<Person>("person")
+                Log.d("DetailScreen", result.toString())
+            }
             DetailScreen(navController = navController)
         }
     }
