@@ -1,17 +1,17 @@
 package com.example.composetest
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.composetest.model.Person
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController
 ) {
+    val sharedViewModel: SharedViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route
@@ -19,18 +19,13 @@ fun SetupNavGraph(
         composable(
             route = Screen.Home.route
         ) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, sharedViewModel = sharedViewModel)
         }
 
         composable(
             route = Screen.Detail.route
         ) {
-            LaunchedEffect(key1 = it) {
-                val result =
-                    navController.previousBackStackEntry?.savedStateHandle?.get<Person>("person")
-                Log.d("DetailScreen", result.toString())
-            }
-            DetailScreen(navController = navController)
+            DetailScreen(navController = navController, sharedViewModel = sharedViewModel)
         }
     }
 }
